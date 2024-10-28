@@ -1,0 +1,102 @@
+//Kay Rambarran
+//Cameron Lowe
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        SortedDictionary<string, List<string>> myDictionary = new SortedDictionary<string, List<string>>();//SortedDictionary automates sorting the key contents
+        bool continueProgram = true;
+
+        while (continueProgram)//bool as a sentinel allows while to loop indefinitely and exit when the case to receive an exit input switches the bool
+        {
+            Console.WriteLine("Select an option:");
+            Console.WriteLine("1: Populate the Dictionary");
+            Console.WriteLine("2: Display Dictionary Contents");
+            Console.WriteLine("3: Remove a Key");
+            Console.WriteLine("4: Add a New Key and Value");
+            Console.WriteLine("5: Add a Value to an Existing Key");
+            Console.WriteLine("6: Sort the Keys");
+            Console.WriteLine("7: Exit");
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1"://adds several default entries to the two default keys
+                //checks if the default keys have already been added to the dictionary
+                if (!myDictionary.ContainsKey("TV Shows"))
+                {
+                    myDictionary.Add("TV Shows", new List<string> { "MythBusters", "Game of Thrones", "Breaking Bad" });
+                    
+                }
+                if (!myDictionary.ContainsKey("Movies"))
+                {
+                    myDictionary.Add("Movies", new List<string> { "Mission Impossible", "28 Days Later", "Pride and Prejudice" });
+                    
+                }
+                Console.WriteLine("The dictionary has been populated with keys: TV Shows and Movies as well as their values.");
+                break;
+                case "2"://checks dictionary count and reports that it's empty if so. otherwise prints a string of all keys and their values to the console
+                if (myDictionary.Count == 0)
+                {
+                    Console.WriteLine("The dictionary is currently empty.");
+                    
+                }
+                else
+                {
+                    foreach (var item in myDictionary)
+                    {
+                        Console.WriteLine($"{item.Key}: {string.Join(", ", item.Value)}");
+                        
+                    }
+                    
+                }
+                break;
+
+                case "3"://takes the literal name of the key and removes it if found
+                    Console.WriteLine("Enter the key to remove:");
+                    string keyToRemove = Console.ReadLine();
+                    myDictionary.Remove(keyToRemove);
+                    break;
+
+                case "4"://accepts an additional key and one value for it
+                    Console.WriteLine("Enter a new key:");
+                    string newKey = Console.ReadLine();
+                    Console.WriteLine("Enter a value for the new key:");
+                    string newValue = Console.ReadLine();
+                    myDictionary.Add(newKey, new List<string> { newValue });
+                    break;
+
+                case "5"://accepts the literal name for a key and adds one value to it
+                    Console.WriteLine("Enter the existing key:");
+                    string existingKey = Console.ReadLine();
+                    Console.WriteLine("Enter a value to add:");
+                    string valueToAdd = Console.ReadLine();
+                    if (myDictionary.ContainsKey(existingKey))
+                    {
+                        myDictionary[existingKey].Add(valueToAdd);
+                    }
+                    break;
+
+                case "6"://prints a string of the keys in sorted order
+                    foreach (var key in myDictionary.Keys.OrderBy(k => k))
+                    {
+                        Console.WriteLine(key);
+                    }
+                    break;
+
+                case "7"://changes sentinel bool when user inputs 7 to exit
+                    continueProgram = false;
+                    break;
+
+                default://default option queries user for an input that doesn't fail
+                    Console.WriteLine("Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
+}
